@@ -5,7 +5,8 @@
                 v-for="(list, index) in lists" :key="index"
                 :listName="list.name" 
                 :isCurList="list.isCurList"
-                v-on:picked="pickList"/>
+                v-on:picked="pickList"
+                v-on:removed="removeList"/>
         </div>
         <div class="add-new-list">
             <input type="text" v-model="newList.name" class="add-new-list__input">
@@ -49,6 +50,10 @@ export default {
         pickList: function(listName) 
         {
             this.$emit("listPicked", this.lists.find((list) => {return list.name == listName}));
+        },
+        removeList: function(listName)
+        {
+            this.lists = this.lists.filter((list) => {return list.name != listName});
         }
     }
 }

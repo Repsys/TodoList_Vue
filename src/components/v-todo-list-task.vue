@@ -1,11 +1,19 @@
 <template>
     <div class="col-12">
         <div class="v-todo-list-task">
-            <input v-model="task.isDone" type="checkbox" class="v-todo-list-task__isDone">
-            <h4 class="v-todo-list-task__name">{{task.name}}</h4>
-            <div v-if="task.isImportant" class="v-todo-list-task__isImportant"></div>
-            <span class="v-todo-list-task__date">{{task.date}}</span>
-            <a v-on:click="closeTask" class="v-todo-list-task__close-btn">x</a>
+            <div class="col-1">
+                <input v-model="task.isDone" type="checkbox" class="v-todo-list-task__isDone">
+            </div>
+            <div class="col-5">
+                <h4 class="v-todo-list-task__name">{{task.name}}</h4>
+            </div>
+            <div class="col-1">
+                <div v-if="task.isImportant" class="v-todo-list-task__isImportant"></div>
+            </div>
+            <div class="col-5">
+                <span class="v-todo-list-task__date">{{task.date}}</span>
+            </div>
+            <a v-on:click="removeTask" class="v-todo-list-task__close-btn close-btn">x</a>
         </div>
     </div>
 </template>
@@ -17,9 +25,9 @@ export default {
         task: Object
     },
     methods: {
-        closeTask: function()
+        removeTask: function()
         {
-            this.$emit("closed", this.task.name);
+            this.$emit("removed", this.task.name);
         }
     }
 }
@@ -32,9 +40,10 @@ export default {
         align-items: center;
         padding: 20px 30px;
         border: 1px solid #2d2a2e;
-        background-color: #403e41;;
+        background-color: #403e41;
         border-radius: 10px;
         margin-bottom: 10px;
+        word-wrap: break-word;
     }
 
     .v-todo-list-task > *
@@ -47,40 +56,18 @@ export default {
         position: absolute;
         top: 5px;
         right: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 15px;
-        min-height: 15px;
-        width: 20px;
-        height: 20px;
-        background-color: #4a474b;
-        color: #fcfcfa;
-        border-radius: 50%;
-        
-    }
-
-    .v-todo-list-task__close-btn:hover
-    {
-        color: rgb(223, 223, 223);
-        text-decoration: none;
     }
 
     .v-todo-list-task__isDone
     {
-        width: 20px;
-        height: 20px;
+        min-width: 20px;
+        min-height: 20px;
     }
 
     .v-todo-list-task__name
     {
-        margin-left: 20px;
         color: #fcfcfa;
-    }
-
-    .v-todo-list-task__date
-    {
-        margin-left: auto;
+        text-align: start;
     }
 
     .v-todo-list-task__isImportant
@@ -89,6 +76,12 @@ export default {
         border-radius: 50%;
         min-width: 20px;
         min-height: 20px;
-        margin-left: 20px;
+        max-width: 20px;
+        max-height: 20px;
+    }
+
+    .v-todo-list-task__date
+    {
+        
     }
 </style>

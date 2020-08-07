@@ -3,7 +3,7 @@
         <div class="v-todo-list-tasks">
             <v-todo-list-task v-for="(task, index) in list.tasks" :key = "index"
             :task = "task"
-            v-on:closed = "closeTask"/>
+            v-on:removed = "removeTask"/>
         </div>
         <div class="add-new-task">
             <input type="text" v-model="newTask.name" class="add-new-task__input">
@@ -52,9 +52,9 @@ export default {
                 this.newTask.isImportant = false;
             }
         },
-        closeTask: function(taskName)
+        removeTask: function(taskName)
         {
-            this.list.tasks.filter((task) => {return task.name != taskName});
+            this.list.tasks = this.list.tasks.filter((task) => {return task.name != taskName});
         }
     }
 }

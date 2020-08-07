@@ -64,6 +64,7 @@ export default {
         background-color: #2D2A2E;
         height: 100%;
         padding: 10px;
+        border-radius: 10px;
     }
 
     input, button
@@ -92,5 +93,26 @@ export default {
     label
     {
         color: #fcfcfa;
+    }
+
+    .close-btn
+    {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 20px;
+        min-height: 20px;
+        width: 20px;
+        height: 20px;
+        background-color: #4a474b;
+        color: #fcfcfa;
+        border-radius: 50%;
+    }
+
+    .close-btn:hover
+    {
+        color: rgb(223, 223, 223);
+        text-decoration: none;
+        cursor: pointer;
     }
 </style>
