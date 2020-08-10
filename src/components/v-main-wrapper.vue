@@ -3,7 +3,10 @@
         <div class="row">
             <div class="v-main-wrapper">
                 <div class="col-4 pl-0">
-                    <v-side-bar class="v-main-wrapper__item" :lists="lists" v-on:listPicked="pickList"></v-side-bar>
+                    <v-side-bar class="v-main-wrapper__item" 
+                    :lists="lists" 
+                    v-on:listPicked="pickList" 
+                    v-on:listRemoved="removeList"></v-side-bar>
                 </div>
                 <div class="col-8 px-0">
                     <v-todo-list class="v-main-wrapper__item" :list="curList"></v-todo-list>
@@ -25,13 +28,7 @@ export default {
     },
     data: function() {
         return {
-            lists: [
-                {
-                    name: "List One",
-                    tasks: [],
-                    isCurList: false
-                }
-            ],
+            lists: [],
             curList: {}
         }
     },
@@ -41,6 +38,10 @@ export default {
             this.curList.isCurList = false;
             list.isCurList = true;
             this.curList = list;
+        },
+        removeList: function (listName)
+        {
+            this.lists = this.lists.filter((list) => {return list.name != listName});
         }
     }
 }
@@ -90,6 +91,11 @@ export default {
         color: #fcfcfa;
     }
 
+    button:hover
+    {
+        background-color: #3b383b;
+    }
+
     label
     {
         color: #fcfcfa;
@@ -107,6 +113,7 @@ export default {
         background-color: #4a474b;
         color: #fcfcfa;
         border-radius: 50%;
+        box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
     }
 
     .close-btn:hover

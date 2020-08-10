@@ -53,7 +53,7 @@ export default {
         },
         removeList: function(listName)
         {
-            this.lists = this.lists.filter((list) => {return list.name != listName});
+            this.$emit("listRemoved", listName);
         }
     }
 }

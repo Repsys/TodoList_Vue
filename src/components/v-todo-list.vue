@@ -8,7 +8,7 @@
         <div class="add-new-task">
             <input type="text" v-model="newTask.name" class="add-new-task__input">
             <input type="checkbox" v-model="newTask.isImportant" id="add-new-task__isImportant">
-            <label for="add-new-task__isImportant">Важная</label>
+            <label for="add-new-task__isImportant">Срочно</label>
             <button v-on:click="addNewTask" class="add-new-task__btn">Добавить задачу</button>
         </div>
     </div>
@@ -24,6 +24,7 @@ export default {
         return {
             newTask: {
                 name: "",
+                listName: "",
                 date: 0,
                 isImportant: false,
                 isDone: false
@@ -47,6 +48,7 @@ export default {
                 console.log("Имя задачи занято");
             else {
                 this.newTask.date = moment().format("llll");
+                this.newTask.listName = this.list.name;
                 this.list.tasks.push(Object.assign({}, this.newTask));
                 this.newTask.name = "";
                 this.newTask.isImportant = false;

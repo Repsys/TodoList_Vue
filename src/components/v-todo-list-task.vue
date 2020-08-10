@@ -13,22 +13,62 @@
             <div class="col-5">
                 <span class="v-todo-list-task__date">{{task.date}}</span>
             </div>
-            <a v-on:click="removeTask" class="v-todo-list-task__close-btn close-btn">x</a>
+            <a v-on:click="showRemovePopup" class="v-todo-list-task__close-btn close-btn">x</a>
         </div>
+        <v-popup v-if="removePopupIsVisible"
+        submitText="Удалить"
+        cancelText="Отмена"
+        name="Удалить задачу"
+        :isChoice="true"
+        :contentText='`Удалить задачу  "` + task.name + `" ?`'
+        v-on:canceled="closeRemovePopup"
+        v-on:submited="removeTask"/>
+
+        <v-popup v-if="createPopupIsVisible"
+        submitText="ОК"
+        name="Задача добавлена"
+        :isChoice="false"
+        :contentText='`Задача "` + task.name + `" добавлена в список "` + task.listName + `"`'
+        v-on:canceled="closeCreatePopup"
+        v-on:submited="closeCreatePopup"/>
     </div>
 </template>
 
 <script>
+import vPopup from "./v-popup"
+
 export default {
     name: "v-todo-list-task",
+    components: {
+        vPopup
+    },
     props: {
-        task: Object
+        task: Object,
+        createPopupIsVisible: Boolean,
+        removePopupIsVisible: Boolean
     },
     methods: {
         removeTask: function()
         {
             this.$emit("removed", this.task.name);
+        },
+        closeCreatePopup: function()
+        {
+            this.createPopupIsVisible = false;
+        },
+        showRemovePopup: function()
+        {
+            this.removePopupIsVisible = true;
+        },
+        closeRemovePopup: function()
+        {
+            this.removePopupIsVisible = false;
         }
+    },
+    mounted: function ()
+    {
+        this.createPopupIsVisible = true;
+        this.removePopupIsVisible = false;
     }
 }
 </script>
