@@ -3,8 +3,7 @@
         <div class="v-side-bar-lists">
             <v-side-bar-list 
                 v-for="(list, index) in lists" :key="index"
-                :listName="list.name" 
-                :isCurList="list.isCurList"
+                :list="list"
                 v-on:picked="pickList"
                 v-on:removed="removeList"/>
         </div>
@@ -28,7 +27,8 @@ export default {
             newList: {
                 name: "",
                 tasks: [],
-                isCurList: false
+                isCurList: false,
+                status: "empty"
             }
         }
     },
@@ -44,6 +44,7 @@ export default {
                 console.log("Имя списка занято");
             else {
                 this.lists.push(JSON.parse(JSON.stringify(this.newList)));
+                this.pickList(this.newList.name);
                 this.newList.name = "";
             }
         },

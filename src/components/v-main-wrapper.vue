@@ -41,6 +41,8 @@ export default {
         },
         removeList: function (listName)
         {
+            let list = this.lists.find((list) => {return list.name == listName});
+            if (list.isCurList) this.curList = {};
             this.lists = this.lists.filter((list) => {return list.name != listName});
         }
     }

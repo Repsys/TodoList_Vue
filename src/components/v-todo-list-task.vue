@@ -24,7 +24,7 @@
         v-on:canceled="closeRemovePopup"
         v-on:submited="removeTask"/>
 
-        <v-popup v-if="createPopupIsVisible"
+        <v-popup v-if="!this.task.isCreated"
         submitText="ОК"
         name="Задача добавлена"
         :isChoice="false"
@@ -42,19 +42,23 @@ export default {
     components: {
         vPopup
     },
+    data: function() {
+        return {
+            removePopupIsVisible: false
+        }
+    },
     props: {
-        task: Object,
-        createPopupIsVisible: Boolean,
-        removePopupIsVisible: Boolean
+        task: Object
     },
     methods: {
         removeTask: function()
         {
             this.$emit("removed", this.task.name);
+            this.closeRemovePopup();
         },
         closeCreatePopup: function()
         {
-            this.createPopupIsVisible = false;
+            this.task.isCreated = true;
         },
         showRemovePopup: function()
         {
@@ -64,11 +68,6 @@ export default {
         {
             this.removePopupIsVisible = false;
         }
-    },
-    mounted: function ()
-    {
-        this.createPopupIsVisible = true;
-        this.removePopupIsVisible = false;
     }
 }
 </script>

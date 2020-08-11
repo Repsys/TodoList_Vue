@@ -27,7 +27,8 @@ export default {
                 listName: "",
                 date: 0,
                 isImportant: false,
-                isDone: false
+                isDone: false,
+                isCreated: false
             }
         }
     },
