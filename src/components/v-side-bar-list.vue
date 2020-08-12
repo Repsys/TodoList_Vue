@@ -3,7 +3,7 @@
         <div v-on:click="pickList" class="v-side-bar-list" 
         :class="listClass">
             {{list.name}}
-            <div class="v-side-bar-list__close-btn close-btn" v-on:click="removeList">x</div>
+            <div class="v-side-bar-list__close-btn close-btn" v-on:click="showRemovePopup">x</div>
         </div>
     </div>
 </template>
@@ -22,6 +22,17 @@ export default {
         removeList: function()
         {
             this.$emit("removed", this.list.name);
+        },
+        showRemovePopup: function()
+        {
+            this.$store.commit('setCurPopup', {
+                name: "Удалить список",
+                isChoice: true,
+                submitText: "Удалить",
+                cancelText: "Отмена",
+                contentText: `Удалить список  "` + this.list.name + `" ?`,
+                submitFunc: this.removeList
+            });
         }
     },
     computed: {

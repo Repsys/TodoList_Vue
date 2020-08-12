@@ -15,38 +15,12 @@
             </div>
             <a v-on:click="showRemovePopup" class="v-todo-list-task__close-btn close-btn">x</a>
         </div>
-        <v-popup v-if="removePopupIsVisible"
-        submitText="Удалить"
-        cancelText="Отмена"
-        name="Удалить задачу"
-        :isChoice="true"
-        :contentText='`Удалить задачу  "` + task.name + `" ?`'
-        v-on:canceled="closeRemovePopup"
-        v-on:submited="removeTask"/>
-
-        <v-popup v-if="!this.task.isCreated"
-        submitText="ОК"
-        name="Задача добавлена"
-        :isChoice="false"
-        :contentText='`Задача "` + task.name + `" добавлена в список "` + task.listName + `"`'
-        v-on:canceled="closeCreatePopup"
-        v-on:submited="closeCreatePopup"/>
     </div>
 </template>
 
 <script>
-import vPopup from "./v-popup"
-
 export default {
     name: "v-todo-list-task",
-    components: {
-        vPopup
-    },
-    data: function() {
-        return {
-            removePopupIsVisible: false
-        }
-    },
     props: {
         task: Object
     },
@@ -54,19 +28,17 @@ export default {
         removeTask: function()
         {
             this.$emit("removed", this.task.name);
-            this.closeRemovePopup();
-        },
-        closeCreatePopup: function()
-        {
-            this.task.isCreated = true;
         },
         showRemovePopup: function()
         {
-            this.removePopupIsVisible = true;
-        },
-        closeRemovePopup: function()
-        {
-            this.removePopupIsVisible = false;
+            this.$store.commit('setCurPopup', {
+                name: "Удалить задачу",
+                isChoice: true,
+                submitText: "Удалить",
+                cancelText: "Отмена",
+                contentText: `Удалить задачу  "` + this.task.name + `" ?`,
+                submitFunc: this.removeTask
+            });
         }
     }
 }

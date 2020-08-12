@@ -38,12 +38,28 @@ export default {
     methods: {
         addNewList: function ()
         {
-            if (this.newList.name.trim() === "") 
-                console.log("Пустое имя списка");
+            if (this.newList.name.trim() === "")
+                this.$store.commit('setCurPopup', {
+                    name: "Имя списка пустое!",
+                    isChoice: false,
+                    submitText: "ОК",
+                    contentText: `Укажите имя списка`
+                });
             else if (this.lists.find((list) => {return list.name == this.newList.name.trim()}))
-                console.log("Имя списка занято");
+                this.$store.commit('setCurPopup', {
+                    name: "Имя списка занято!",
+                    isChoice: false,
+                    submitText: "ОК",
+                    contentText: `Укажите другое имя списка`
+                });
             else {
                 this.lists.push(JSON.parse(JSON.stringify(this.newList)));
+                this.$store.commit('setCurPopup', {
+                    name: "Список добавлен",
+                    isChoice: false,
+                    submitText: "ОК",
+                    contentText: `Список "` + this.newList.name + `" добавлен`
+                });
                 this.pickList(this.newList.name);
                 this.newList.name = "";
             }

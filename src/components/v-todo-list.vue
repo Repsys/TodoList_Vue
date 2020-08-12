@@ -42,15 +42,31 @@ export default {
         addNewTask: function ()
         {
             if (!Object.keys(this.list).length)
-                console.log("Не выбран список");
+                this.$store.commit('setCurPopup', {
+                    name: "Список не выбран!",
+                    isChoice: false,
+                    submitText: "ОК",
+                    contentText: `Выберите список`
+                });
             else if (this.newTask.name.trim() === "") 
-                console.log("Пустое имя задачи");
+                this.$store.commit('setCurPopup', {
+                    name: "Имя задачи пустое!",
+                    isChoice: false,
+                    submitText: "ОК",
+                    contentText: `Укажите имя задачи`
+                });
             else if (this.list.tasks.find((task) => {return task.name == this.newTask.name.trim()}))
-                console.log("Имя задачи занято");
+                this.$store.commit('setCurPopup', {
+                    name: "Имя задачи занято!",
+                    isChoice: false,
+                    submitText: "ОК",
+                    contentText: `Укажите другое имя задачи`
+                });
             else {
                 this.newTask.date = moment().format("llll");
                 this.newTask.listName = this.list.name;
                 this.list.tasks.push(Object.assign({}, this.newTask));
+                this.showCreatePopup(this.newTask.name, this.newTask.listName);
                 this.newTask.name = "";
                 this.newTask.isImportant = false;
             }
@@ -58,6 +74,15 @@ export default {
         removeTask: function(taskName)
         {
             this.list.tasks = this.list.tasks.filter((task) => {return task.name != taskName});
+        },
+        showCreatePopup: function (taskName, listName)
+        {
+            this.$store.commit('setCurPopup', {
+                name: "Задача добавлена",
+                isChoice: false,
+                submitText: "ОК",
+                contentText: `Задача "` + taskName + `" добавлена в список "` + listName + `"`
+            });
         }
     }
 }
