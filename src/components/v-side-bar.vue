@@ -1,5 +1,10 @@
 <template>
     <div class="v-side-bar">
+        <select class="list-filter" v-model="filter" @change="filterLists()">
+            <option>Все</option>
+            <option>Исполненные</option>
+            <option>Неисполненные</option>
+        </select>
         <div class="v-side-bar-lists">
             <v-side-bar-list 
                 v-for="(list, index) in lists" :key="index"
@@ -24,11 +29,14 @@ export default {
     },
     data: function () {
         return {
+            filter: "Все",
+            filteredLists: [],
             newList: {
                 name: "",
                 tasks: [],
                 isCurList: false,
-                status: "empty"
+                status: "empty",
+                isVisible: true
             }
         }
     },
@@ -71,6 +79,35 @@ export default {
         removeList: function(listName)
         {
             this.$emit("listRemoved", listName);
+        },
+        filterLists: function()
+        {
+            if (this.filter == "Все")
+                this.lists.map((list) => {list.isVisible = true});
+            else if (this.filter == "Исполненные")
+                this.lists.map((list) => {
+                    if (list.status == "completed") list.isVisible = true
+                    else list.isVisible = false});
+            else if (this.filter == "Неисполненные")
+                this.lists.map((list) => {
+                    if (list.status != "completed") list.isVisible = true
+                    else list.isVisible = false});
+        }
+    },
+    computed: {
+        listsStatuses: function()
+        {
+            return this.lists.map(list => list.status);
+        }
+    },
+    watch: {
+        lists: function()
+        {
+            this.filterLists();
+        },
+        listsStatuses: function()
+        {
+            this.filterLists();
         }
     }
 }
@@ -81,13 +118,18 @@ export default {
     {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+    }
+    
+    .list-filter
+    {
+        margin-bottom: 15px;
     }
 
     .v-side-bar-lists
     {
         overflow-y: auto;
         margin-bottom: 15px;
+        height: 100%;
     }
 
     .add-new-list__input

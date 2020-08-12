@@ -1,6 +1,6 @@
 <template>
-    <div class="col-12">
-        <div v-on:click="pickList" class="v-side-bar-list" 
+    <div class="col-12" >
+        <div v-if="list.isVisible" v-on:click="pickList" class="v-side-bar-list" 
         :class="listClass">
             {{list.name}}
             <div class="v-side-bar-list__close-btn close-btn" v-on:click="showRemovePopup">x</div>

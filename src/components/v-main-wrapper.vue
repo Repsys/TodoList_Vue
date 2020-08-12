@@ -73,19 +73,19 @@ export default {
         border-radius: 10px;
     }
 
-    input, button
+    input, button, select
     {
         height: 35px;
         padding: 0 10px;
         border: 1px solid #2d2a2e;
     }
 
-    input:focus, button:focus
+    input:focus, button:focus, select:focus
     {
         outline: none;
     }
 
-    input
+    input, select
     {
         background-color: #fcfcfa;
     }
