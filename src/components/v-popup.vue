@@ -50,7 +50,7 @@ export default {
         top: 30%;
         padding: 20px 40px;
         padding-top: 0;
-        box-shadow: 2px 2px 20px 0px rgba(0,0,0,0.75);
+        box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
         background-color: #fcfcfa;
         color: #2D2A2E;
         border-radius: 10px;
