@@ -2,7 +2,7 @@
     <div class="v-popup" v-if="popup.isVisible">
         <div class="v-popup__header">
             <span class="popup-name">{{popup.name}}</span>
-            <a class="v-popup__close-btn close-btn" v-on:click="cancel">x</a>
+            <a class="close-btn v-popup__close-btn" v-on:click="cancel">x</a>
         </div>
         <div class="v-popup__content">
             {{popup.contentText}}
@@ -46,14 +46,17 @@ export default {
     .v-popup
     {
         position: fixed;
-        margin: 0 auto;
-        top: 30%;
-        padding: 20px 40px;
-        padding-top: 0;
+        left: 50%;
+        top: 40%;
+        transform: translate(-50%, -50%);
+        padding: 10px 40px;
+        
         box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
         background-color: #fcfcfa;
         color: #2D2A2E;
         border-radius: 10px;
+        border-top: 15px solid #403e41;
+        border-bottom: 15px solid #403e41;
         z-index: 10;
         max-width: 500px;
     }
@@ -75,13 +78,6 @@ export default {
         position: absolute;
         right: 5px;
         top: 5px;
-        background-color: #fcfcfa;
-        color: #403e41;
-    }
-
-    .v-popup__close-btn:hover
-    {
-        color: #2D2A2E;
     }
 
     .v-popup__content
