@@ -1,27 +1,66 @@
 <template>
     <div class="sign-up">
         <div class="sign-up__field">
+            <label for="sign-up-name">Имя</label>
+            <input type="text" id="sign-up-name" v-model="name">
+        </div>
+        <div class="sign-up__field">
             <label for="sign-up-email">Почта</label>
-            <input type="email" id="sign-up-email">
+            <input type="email" id="sign-up-email" v-model="email">
         </div>
         <div class="sign-up__field">
             <label for="sign-up-password">Пароль</label>
-            <input type="password" id="sign-up-password">
+            <input type="password" id="sign-up-password" v-model="password">
         </div>
-        <button class="sign-up__btn">Создать аккаунт</button>
-        <a class="sign-up__close-btn close-btn" v-on:click="close">x</a>
+        <button class="sign-up__btn" v-on:click="signUp()">Создать аккаунт</button>
+        <a class="sign-up__close-btn close-btn" v-on:click="close()">x</a>
     </div>
 </template>
 
 <script>
 export default {
     name: "v-sign-up",
+    data: function() {
+        return {
+            email: "",
+            password: "",
+            name: ""
+        }
+    },
     props: {
     },
     methods: {
         close: function()
         {
             this.$emit("closed");
+        },
+        signUp: async function()
+        {
+            const signUpData = {
+                email: this.email,
+                password: this.password,
+                name: this.name
+            }
+            try {
+                await this.$store.dispatch("signUp", signUpData);
+                this.$store.commit('setCurPopup', {
+                    name: "Аккаунт успешно создан",
+                    isChoice: false,
+                    submitText: "ОК",
+                    contentText: "Привет, " + this.name
+                });
+                this.close();
+                await this.$store.dispatch("signIn", {
+                    email: this.email, 
+                    password: this.password});
+            } catch (e) {
+                this.$store.commit('setCurPopup', {
+                    name: "Error: " + e.code,
+                    isChoice: false,
+                    submitText: "ОК",
+                    contentText: e.message
+                });
+            }
         }
     }
 }

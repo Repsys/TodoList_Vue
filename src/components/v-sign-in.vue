@@ -2,22 +2,52 @@
     <div class="sign-in">
         <div class="sign-in__item">
             <label for="sign-in-email">Почта</label>
-            <input type="email" id="sign-in-email">
+            <input type="email" id="sign-in-email" v-model="email">
         </div>
         <div class="sign-in__item">
             <label for="sign-in-password">Пароль</label>
-            <input type="password" id="sign-in-password">
+            <input type="password" id="sign-in-password" v-model="password">
         </div>
-        <button class="sign-in__item">Войти</button>
+        <button class="sign-in__item" v-on:click="signIn()">Войти</button>
     </div>
 </template>
 
 <script>
 export default {
     name: "v-sign-in",
+    data: function() {
+        return {
+            email: "",
+            password: ""
+        }
+    },
     props: {
     },
     methods: {
+        signIn: async function()
+        {
+            const signInData = {
+                email: this.email,
+                password: this.password
+            }
+
+            try {
+                await this.$store.dispatch("signIn", signInData);
+                this.$store.commit('setCurPopup', {
+                    name: "Успешный вход",
+                    isChoice: false,
+                    submitText: "ОК",
+                    contentText: "Привет, " + this.$store.getters.info.name
+                });
+            } catch (e) {
+                this.$store.commit('setCurPopup', {
+                    name: "Error: " + e.code,
+                    isChoice: false,
+                    submitText: "ОК",
+                    contentText: e.message
+                });
+            }
+        }
     }
 }
 </script>

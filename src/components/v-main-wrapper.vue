@@ -11,21 +11,18 @@
                 <div class="col-8 px-0">
                     <v-todo-list class="v-main-wrapper__item" :list="curList"></v-todo-list>
                 </div>
-                <v-popup :popup="this.$store.getters.getCurPopup"/>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import vPopup from "./v-popup"
 import vSideBar from "./v-side-bar"
 import vTodoList from "./v-todo-list"
 
 export default {
     name: "v-main-wrapper",
     components: {
-        vPopup,
         vSideBar,
         vTodoList
     },

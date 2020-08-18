@@ -1,17 +1,20 @@
 <template>
   <div id="app">
     <v-header/>
-    <v-main-wrapper/>
+    <v-main-wrapper v-if="this.$store.getters.isAuth"/>
+    <v-popup :popup="this.$store.getters.getCurPopup"/>
   </div>
 </template>
 
 <script>
+import vPopup from "./components/v-popup"
 import vHeader from "./components/v-header"
 import vMainWrapper from "./components/v-main-wrapper"
 
 export default {
   name: 'App',
   components: {
+    vPopup,
     vHeader,
     vMainWrapper
   }
