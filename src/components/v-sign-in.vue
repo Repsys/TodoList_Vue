@@ -17,8 +17,8 @@ export default {
     name: "v-sign-in",
     data: function() {
         return {
-            email: "",
-            password: ""
+            email: "trup@mail.ru",
+            password: "123456"
         }
     },
     props: {
@@ -34,10 +34,10 @@ export default {
             try {
                 await this.$store.dispatch("signIn", signInData);
                 this.$store.commit('setCurPopup', {
-                    name: "Успешный вход",
+                    name: "Добро пожаловать",
                     isChoice: false,
                     submitText: "ОК",
-                    contentText: "Привет, " + this.$store.getters.info.name
+                    contentText: this.$store.getters.info.name
                 });
             } catch (e) {
                 this.$store.commit('setCurPopup', {

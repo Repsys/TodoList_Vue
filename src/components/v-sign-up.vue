@@ -47,7 +47,7 @@ export default {
                     name: "Аккаунт успешно создан",
                     isChoice: false,
                     submitText: "ОК",
-                    contentText: "Привет, " + this.name
+                    contentText: this.name
                 });
                 this.close();
                 await this.$store.dispatch("signIn", {

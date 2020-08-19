@@ -45,6 +45,12 @@ export default {
             if (list.isCurList) this.curList = {};
             this.lists = this.lists.filter((list) => {return list.name != listName});
         }
+    },
+    async mounted() {
+        if (!Object.keys(this.$store.getters.info).length) 
+        {
+            await this.$store.dispatch('fetchInfo')
+        }
     }
 }
 </script>

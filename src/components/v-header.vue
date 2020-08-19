@@ -1,21 +1,21 @@
 <template>
   <div class="header">
-    <div class="non-auth-container" v-if="!this.$store.getters.isAuth">
+    <section class="non-auth-sec" v-if="!this.$store.getters.isAuth">
       <div class="container">
           <v-sign-in/>
-          <button class="sign-up-btn" @click="signUpIsVisible = true">Регистрация</button>
+          <button class="sign-up-btn" @click="showSignUp()">Регистрация</button>
       </div>
-      <v-sign-up @closed="signUpIsVisible = false" v-if="signUpIsVisible"/>
-    </div>
-    <div class="auth-container" v-else>
+      <v-sign-up @closed="closeSignUp()" v-if="signUpIsVisible"/>
+    </section>
+    <section class="auth-sec" v-else>
       <div class="container">
-        <div class="auth-container-account">
-          <h4 class="auth-container-account__label">Аккаунт: </h4>
-          <h5 class="auth-container-account__name">{{this.$store.getters.info.name}}</h5>
+        <div class="auth-sec-account">
+          <h4 class="auth-sec-account__label">Аккаунт: </h4>
+          <h5 class="auth-sec-account__name">{{this.$store.getters.info.name}}</h5>
         </div>
         <button class="logout-btn" @click="logout()">Выйти из аккаунта</button>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -35,13 +35,21 @@ export default {
     }
   },
   methods: {
+    showSignUp: function()
+    {
+      this.signUpIsVisible = true;
+    },
+    closeSignUp: function()
+    {
+      this.signUpIsVisible = false;
+    },
     logout: async function()
     {
       this.$store.commit('setCurPopup', {
-        name: "",
+        name: "До встречи",
         isChoice: false,
         submitText: "ОК",
-        contentText: "До встречи, " + this.$store.getters.info.name
+        contentText: this.$store.getters.info.name
       });
       try {
         await this.$store.dispatch('logout');
@@ -71,25 +79,25 @@ export default {
         color: white;
     }
 
-    .non-auth-container .container
+    .non-auth-sec .container
     {
         display: flex;
         justify-content: space-between;
     }
 
-    .auth-container .container, .auth-container-account
+    .auth-sec .container, .auth-sec-account
     {
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .auth-container-account__label, .auth-container-account__name
+    .auth-sec-account__label, .auth-sec-account__name
     {
       margin: 0;
     }
 
-    .auth-container-account__label
+    .auth-sec-account__label
     {
       margin-right: 10px;
     }
