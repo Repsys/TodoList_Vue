@@ -58,7 +58,7 @@ export default {
         lists: Array
     },
     methods: {
-        addNewList: function ()
+        addNewList: async function ()
         {
             if (this.newList.name.trim() === "")
                 this.$store.commit('setCurPopup', {
@@ -75,17 +75,22 @@ export default {
                     contentText: `Укажите другое имя списка`
                 });
             else {
-                this.newList.date = moment();
-                this.lists.push(JSON.parse(JSON.stringify(this.newList)));
-                this.$store.commit('setCurPopup', {
-                    name: "Список добавлен",
-                    isChoice: false,
-                    submitText: "ОК",
-                    contentText: `Список "` + this.newList.name + `" добавлен`
-                });
-                this.sortLists();
-                this.pickList(this.newList.name);
-                this.newList.name = "";
+                this.newList.date = moment().toString();
+                try {
+                    let list = JSON.parse(JSON.stringify(this.newList));
+                    await this.$store.dispatch('createList', list);
+                    this.lists.push(list);
+                    
+                    this.$store.commit('setCurPopup', {
+                        name: "Список добавлен",
+                        isChoice: false,
+                        submitText: "ОК",
+                        contentText: `Список "` + this.newList.name + `" добавлен`
+                    });
+                    this.sortLists();
+                    this.pickList(this.newList.name);
+                    this.newList.name = "";
+                } catch(e) {e}
             }
         },
         pickList: function(listName) 
@@ -140,6 +145,10 @@ export default {
         {
             this.filterLists();
         }
+    },
+    mounted()
+    {
+        // this.sortLists();
     }
 }
 </script>

@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="v-todo-list-task">
             <div class="col-1">
-                <input v-model="task.isDone" type="checkbox" class="v-todo-list-task__isDone">
+                <input @change="completeTask" v-model="task.isDone" type="checkbox" class="v-todo-list-task__isDone">
             </div>
             <div class="col-5">
                 <h4 class="v-todo-list-task__name">{{task.name}}</h4>
@@ -39,6 +39,10 @@ export default {
                 contentText: `Удалить задачу  "` + this.task.name + `" ?`,
                 submitFunc: this.removeTask
             });
+        },
+        completeTask: function()
+        {
+            this.$emit('completed');
         }
     }
 }

@@ -39,14 +39,7 @@ export default {
                     submitText: "ОК",
                     contentText: this.$store.getters.info.name
                 });
-            } catch (e) {
-                this.$store.commit('setCurPopup', {
-                    name: "Error: " + e.code,
-                    isChoice: false,
-                    submitText: "ОК",
-                    contentText: e.message
-                });
-            }
+            } catch (e) {e}
         }
     }
 }

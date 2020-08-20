@@ -53,14 +53,7 @@ export default {
                 await this.$store.dispatch("signIn", {
                     email: this.email, 
                     password: this.password});
-            } catch (e) {
-                this.$store.commit('setCurPopup', {
-                    name: "Error: " + e.code,
-                    isChoice: false,
-                    submitText: "ОК",
-                    contentText: e.message
-                });
-            }
+            } catch (e) {e}
         }
     }
 }

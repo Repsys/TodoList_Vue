@@ -12,18 +12,18 @@ export default {
                 await firebase.auth().signInWithEmailAndPassword(email, password);
                 await dispatch('fetchInfo');
             } catch(e) {
-                console.log(e);
+                dispatch('setError', e);
                 throw e;
             }
         },
-        async signUp({getters}, {email, password, name})
+        async signUp({dispatch, getters}, {email, password, name})
         {
             try {
                 await firebase.auth().createUserWithEmailAndPassword(email, password);
                 const uid = getters.uid;
                 await firebase.database().ref(`/users/${uid}/info`).set({name});
             } catch(e) {
-                console.log(e);
+                dispatch('setError', e);
                 throw e;
             }
         },

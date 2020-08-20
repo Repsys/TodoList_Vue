@@ -1,7 +1,7 @@
 <template>
     <div class="v-todo-list">
         <div class="v-todo-list-tasks">
-            <v-todo-list-task v-for="(task, index) in list.tasks" :key = "index"
+            <v-todo-list-task @completed="completeTask" v-for="(task, index) in list.tasks" :key = "index"
             :task = "task"
             v-on:removed = "removeTask"/>
         </div>
@@ -39,7 +39,7 @@ export default {
         vTodoListTask
     },
     methods: {
-        addNewTask: function ()
+        addNewTask: async function ()
         {
             if (!Object.keys(this.list).length)
                 this.$store.commit('setCurPopup', {
@@ -63,17 +63,34 @@ export default {
                     contentText: `Укажите другое имя задачи`
                 });
             else {
-                this.newTask.date = moment().format("llll");
-                this.newTask.listName = this.list.name;
-                this.list.tasks.push(Object.assign({}, this.newTask));
-                this.showCreatePopup(this.newTask.name, this.newTask.listName);
-                this.newTask.name = "";
-                this.newTask.isImportant = false;
+                try {
+                    this.newTask.date = moment().format("llll");
+                    this.newTask.listName = this.list.name;
+
+                    let updatedList = JSON.parse(JSON.stringify(this.list));
+                    updatedList.tasks.push(Object.assign({}, this.newTask));
+                    await this.$store.dispatch('updateList', updatedList);
+
+                    this.list = updatedList;
+                    this.showCreatePopup(this.newTask.name, this.newTask.listName);
+                    this.newTask.name = "";
+                    this.newTask.isImportant = false;
+                } catch (e) {e}
             }
         },
-        removeTask: function(taskName)
+        removeTask: async function(taskName)
         {
-            this.list.tasks = this.list.tasks.filter((task) => {return task.name != taskName});
+            try {
+                let updatedList = JSON.parse(JSON.stringify(this.list));
+                updatedList.tasks = this.list.tasks.filter((task) => {return task.name != taskName});
+                await this.$store.dispatch('updateList', updatedList);
+                this.list = updatedList;
+            } catch (e) {e}
+        },
+        completeTask: async function()
+        {
+            let updatedList = JSON.parse(JSON.stringify(this.list));
+            await this.$store.dispatch('updateList', updatedList);
         },
         showCreatePopup: function (taskName, listName)
         {

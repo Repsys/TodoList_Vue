@@ -39,18 +39,19 @@ export default {
             list.isCurList = true;
             this.curList = list;
         },
-        removeList: function (listName)
+        removeList: async function (listName)
         {
-            let list = this.lists.find((list) => {return list.name == listName});
-            if (list.isCurList) this.curList = {};
-            this.lists = this.lists.filter((list) => {return list.name != listName});
+            try {
+                let list = this.lists.find((list) => {return list.name == listName});
+                await this.$store.dispatch('removeList', list.id);
+                if (list.isCurList) this.curList = {};
+                this.lists = this.lists.filter((list) => {return list.name != listName});
+            } catch (e) {e}
         }
     },
     async mounted() {
-        if (!Object.keys(this.$store.getters.info).length) 
-        {
-            await this.$store.dispatch('fetchInfo')
-        }
+        this.lists = await this.$store.dispatch('fetchLists');
+        console.log(this.lists);
     }
 }
 </script>
